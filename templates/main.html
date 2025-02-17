@@ -1,0 +1,79 @@
+{% load static %}
+{% static 'images' as baseurl %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mainpage</title>
+<style>
+    body {
+        
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: white;
+        padding: 20px;
+        
+    }
+    h1 {
+        font-size: 2.5rem;
+        color: #222;
+        text-align: center;
+    }
+    
+    .box {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        text-align: left;
+        box-shadow: 0 4px 10px;
+        border-radius: 8px;
+        align-items:center;
+        padding: 30px;
+    }
+    .food_container{
+        display: flex;
+        justify-content: space-between;
+        
+    }
+    .order{
+        display: block;
+    }
+    .order-container{
+        display: flex;
+        justify-content:center;
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+
+    
+<h1>WE OFFER</h1>
+<form action="invoice" method="post">
+    {% csrf_token %}
+ <div class="food_container">
+    {% for food in fooditems %}
+     
+         <div class="box">
+              <label for="foodname" style="text-align:center;">{{food.name}}</label>
+               <img src="{{food.image.url}}" alt="food" width="200" height="125">
+               <label for="foodprice" style="text-align:center;">${{food.price}}</label>
+               <label for="description" >{{food.description}}</label>
+              <input for="quantity" name="{{food.name}}" type="number" placeholder="quantity" min="0">
+            </div>
+    
+        
+
+       {% endfor %}
+ 
+    </div>
+  
+  
+  
+  
+    <div class="order-container">
+     <button type="submit" class="order">ORDER</button>
+ </div>
+</form>
+</body>
+</html>
