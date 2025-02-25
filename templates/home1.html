@@ -1,89 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>food fiesta</title>
     <style>
-        * {
+        /* * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        } */
+        a {
+            padding: 10px;
+            background-color: rgb(0, 253, 0);
+            color: rgb(249, 243, 243);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-decoration: solid;
+            font-weight: 500;
+            font-style: italic;
+            box-sizing: border-box;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #635656;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        a:hover {
+            color: black;
         }
 
-        .container {
+        div h1{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-weight: 700;
+            font-style: italic;
+            text-decoration: underline;
+            display: inline;
             text-align: center;
-            padding: 20px;
-            max-width: 600px;
-            background: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: #222;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-
-        .button-container {
+        p{
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            justify-content: right;
+            font-family: 'Courier New', Courier, monospace;
+            font-style: italic;
+            font-weight: 200;
         }
-
-        .button-container a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background 0.3s;
+        div {
+            padding-top: 10px;
+            box-sizing: border-box;
         }
-
-        .button-container .signup {
-            background-color: #4CAF50;
+        .centerright{
+            display: flex;
+            justify-content: right;
+            
         }
-
-        .button-container .signup:hover {
-            background-color: #45a049;
-        }
-
-        .button-container .login {
-            background-color: #2196F3;
-        }
-
-        .button-container .login:hover {
-            background-color: #1e88e5;
-        }
+        .box {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        text-align: left;
+        box-shadow: 0 4px 10px;
+        border-radius: 8px;
+        align-items:center;
+        padding: 30px;
+    }
+    .food_container{
+        display: flex;
+        justify-content: space-between;
+        
+    }
+    .order{
+        display: block;
+    }
+    .order-container{
+        display: flex;
+        justify-content:center;
+        text-align: center;
+    }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Welcome to food fiesta</h1>
-        
-        <p>Please login or register to continue</p>
-        <div class="button-container">
-            <a href="signup" class="signup">register</a>
-            <a href="login" class="login">login</a>
-            <a href="ownerlogin" class="login">ownerlogin</a>
-        </div>
+    <div>
+        <center>
+            <h1>welcome to food fiesta</h1>
+        </center>
     </div>
+    {% if not request.user.is_authenticated%}
+    <p>Please login or register to continue</p>
+    
+    <div class="centerright">
+        
+        <a href="signup_page">register</a>
+        <a href="login_page">login</a>
+        <a href="ownerlogin">ownerlogin</a>
+    </div>
+    {% else %}
+    <a href="userlogout">logout</a>
+    <p>{{request.user.username}}</p>
+    {% endif %}
+    <div>
+        <h1>WE OFFER</h1>
+        <form action="/" method="POST">
+            {% csrf_token %}
+         <div class="food_container">
+            {% for food in fooditems %}
+             
+                 <div class="box">
+                      <label for="foodname" style="text-align:center;">{{food.name}}</label>
+                       <img src="{{food.image.url}}" alt="food" width="200" height="125">
+                       <label for="foodprice" style="text-align:center;">${{food.price}}</label>
+                       <label for="description" >{{food.description}}</label>
+                      <input value=0 for="quantity" name="quantity_{{food.id}}" type="number" placeholder="quantity" min="0">
+                    </div>
+            
+                
+        
+               {% endfor %}
+         
+            </div>
+            <div class="order-container">
+                <button type="submit" class="order">ORDER</button>
+            </div>
+           </form>
+
 </body>
+
 </html>

@@ -58,7 +58,7 @@
 </head>
 <body>
     
-    <form method="post" action="signup" class="form-container">
+    <form method="post" action="signup_page" class="form-container">
         {%csrf_token%}
         <img src=" {% static 'images\ratlogo.jpeg' %} ">
         <h1>signup</h1>
@@ -79,6 +79,7 @@
         <button type="submit">SUBMIT</button>
         <button type="reset" class="reset">RESET</button>
     </form>
+    <p>{{massage}}</p>
 </body>
 
     </html>
