@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'owner',
+    
     'calc.apps.CalcConfig',
     'django.contrib.admin',
     'django.contrib.auth',
