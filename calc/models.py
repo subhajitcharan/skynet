@@ -13,5 +13,9 @@ class extrauserinfo(models.Model):
     pin= models.CharField(max_length=6,null=True)
     email= models.EmailField(null=True)
 
+class orderinfo(models.Model):
+    username=models.CharField(max_length=100,default='blank')
+    address=models.TextField(max_length=500,default='blank')
+    order=models.TextField(max_length=1000,default='blank')
 
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from calc.models import foods ,extrauserinfo
+from calc.models import foods ,extrauserinfo,orderinfo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 
@@ -8,6 +8,7 @@ def home(request):
         if not request.user.is_authenticated:
             return
         order={}
+        list1=''
         for key, value in request.POST.items():
             if key.startswith("quantity_") and value.isdigit() and int(value) > 0:
                 food_id = key.split("_")[1]
@@ -16,10 +17,16 @@ def home(request):
                 food_item = foods.objects.get(id=food_id)
                 
                 order[food_item.name]=quantity
+                list1+=food_item.name+str(quantity)+'||'
+        extrauser=extrauserinfo.objects.get(email=request.user.email)
+        orderinfo1=orderinfo.objects.create(username=request.user.username,address=extrauser.address,order=list1)
+        orderinfo1.save();
+        list1=''
+
                 
                 
                 
-        return render(request,'invoice.html',{'orders':order,'username':request.user.username})
+        return render(request,'invoice.html',{'orders':order})
         
     else:
         food = foods.objects.all()
